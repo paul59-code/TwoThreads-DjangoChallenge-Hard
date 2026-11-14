@@ -8,6 +8,7 @@ class Person(models.Model):
     name = models.CharField(max_length=200)
     age = models.IntegerField()
     health = models.IntegerField(default=100)  # scade pe măsură ce se rejoacă luptele
+    rank = models.CharField(max_length=50, null=True, blank=True, db_index=True)  # Private/Sergeant/..., setat de drafting
 
     class Meta:
         ordering = ["id"]

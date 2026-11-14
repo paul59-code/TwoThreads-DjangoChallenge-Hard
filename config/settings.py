@@ -46,3 +46,21 @@ USE_TZ = True
 
 # Sursa datelor (folosită de `manage.py load_data`)
 API_BASE_URL = "https://coderun2026-csbwf4haa4d0gubu.westus3-01.azurewebsites.net"
+
+# --- Celery -------------------------------------------------------------------------------
+# Broker: memory:// merge doar într-un singur proces (teste, CELERY_EAGER=1).
+# Pentru un worker separat folosește Redis, de ex.: set CELERY_BROKER_URL=redis://localhost:6379/0
+import os  # noqa: E402
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "memory://")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "cache+memory://")
+CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_EAGER") == "1"
+CELERY_TASK_EAGER_PROPAGATES = True
+CELERY_TASK_ACKS_LATE = True          # un task pierdut la o cădere a workerului se reia
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+
+# --- Drafting în loturi -------------------------------------------------------------------
+DRAFT_FETCH_TIMEOUT = 15               # secunde; peste ele cererea e considerată timeout și se reia
+# Adresa unui lot; {batch} e numărul lotului (0, 1, 2 ... cum îl dă `next_batch`).
+# TODO: pune adresa reală (cea de unde ai primit lotul cu "next_batch").
+DRAFT_BATCH_URL = API_BASE_URL + "/draft?batch={batch}"

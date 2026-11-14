@@ -1,0 +1,76 @@
+{
+  "data": [
+    {
+      "age": 21,
+      "health": 100,
+      "id": 0,
+      "name": "Brody Sanchez",
+      "rank": "Lieutenant"
+    },
+    {
+      "age": 34,
+      "health": 100,
+      "id": 1,
+      "name": "Colton Mitchell",
+      "rank": "General"
+    },
+    {
+      "age": 63,
+      "health": 100,
+      "id": 2,
+      "name": "Wyatt Harris",
+      "rank": "Private"
+    },
+    {
+      "age": 57,
+      "health": 100,
+      "id": 3,
+      "name": "Eli Thompson",
+      "rank": "Lieutenant"
+    },
+    {
+      "age": 21,
+      "health": 100,
+      "id": 4,
+      "name": "Jordan Anderson",
+      "rank": "General"
+    },
+    {
+      "age": 34,
+      "health": 100,
+      "id": 5,
+      "name": "Michael Adams",
+      "rank": "Lieutenant"
+    },
+    {
+      "age": 55,
+      "health": 100,
+      "id": 6,
+      "name": "Andre Taylor",
+      "rank": "Lieutenant"
+    },
+    {
+      "age": 34,
+      "health": 100,
+      "id": 7,
+      "name": "Elijah Richardson",
+      "rank": "Private"
+    },
+    {
+      "age": 20,
+      "health": 100,
+      "id": 8,
+      "name": "Javier Evans",
+      "rank": "Sergeant"
+    },
+    {
+      "age": 41,
+      "health": 100,
+      "id": 9,
+      "name": "Gabriel Cox",
+      "rank": "Sergeant"
+    }
+  ],
+  "next_batch": 1,
+  "status": 200
+}

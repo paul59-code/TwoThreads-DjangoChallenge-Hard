@@ -1,6 +1,1 @@
-{
-  "data": {
-    "message": "Now you will simulate actual fights. The fight data will be provided yo you as a list of fights of events. Each fight contains two soldier ids and a list of events. Each event contains who attacked who, and how much damage the defender takes from the attacker. You have to simulate each individual fight as a background process. Each event for each fight must be saved into the database. Watch out for the database design. Watch out for concurrency issues while processing fights in parallel. Your last task will be found at /simulate-fight-info. Good luck"
-  },
-  "status": "ok"
-}
+{"data":{"message":"Now you will simulate actual fights. The fight data will be provided yo you as a list of fights of events. Each fight contains two soldier ids and a list of events. Each event contains who attacked who, and how much damage the defender takes from the attacker. You have to simulate each individual fight as a background process. Each event for each fight must be saved into the database. Watch out for the database design. Watch out for concurrency issues while processing fights in parallel. Your last task will be found at /simulate-fight-info. Good luck"},"status":"ok"}
