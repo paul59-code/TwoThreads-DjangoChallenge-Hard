@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>War simulator</title>
+{% if active %}<meta http-equiv="refresh" content="3">{% endif %}
+<style>body{font:16px system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:.4rem;border-bottom:1px solid #ddd}article{margin:2rem 0}pre{white-space:pre-wrap}</style></head>
+<body><h1>Fight simulation</h1>
+{% for message in messages %}<p role="status">{{ message }}</p>{% endfor %}
+<form method="post">{% csrf_token %}<button type="submit">Start pending / failed fights</button></form>
+<p>Health is shared across fights. Results retain health snapshots at processing time. Completed events are applied once.</p>
+{% for fight in fights %}<article>
+<h2>Fight {{ fight.external_id }} — {{ fight.status }}</h2>
+<p>Blue: {{ fight.blue_soldier }} · rank {{ fight.blue_soldier.rank }} · current HP {{ fight.blue_soldier.health }}<br>
+Red: {{ fight.red_soldier }} · rank {{ fight.red_soldier.rank }} · current HP {{ fight.red_soldier.health }}</p>
+<p>Initial HP: {{ fight.initial_health }}<br>Final HP: {{ fight.final_health }}<br>{{ fight.result }}</p>
+{% if fight.error %}<p>{{ fight.error }}</p>{% endif %}
+<table><thead><tr><th>Event index</th><th>Attacker</th><th>Defender</th><th>Damage</th><th>HP before → after</th><th>Processed</th></tr></thead><tbody>
+{% for event in fight.events.all %}<tr><td>{{ event.event_index }}</td><td>{{ event.attacker }}</td><td>{{ event.defender }}</td><td>{{ event.damage }}</td><td>{{ event.health_before|default_if_none:'—' }} → {{ event.health_after|default_if_none:'—' }}</td><td>{{ event.processed }}</td></tr>{% endfor %}
+</tbody></table></article>{% empty %}<p>No fights imported yet.</p>{% endfor %}
+<h2>Draft batches</h2>{% for batch in batches %}<p>{{ batch.source }} — {{ batch.status }} {{ batch.error }}</p>{% empty %}<p>No drafting dataset supplied.</p>{% endfor %}
+</body></html>
