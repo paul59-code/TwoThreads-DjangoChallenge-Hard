@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulare lupte</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 960px; padding: 0 1rem; color: #1b1f24; }
+  h1 { margin-bottom: .25rem; }
+  .muted { color: #667; }
+  table { border-collapse: collapse; width: 100%; margin: .5rem 0 1.5rem; }
+  th, td { border: 1px solid #d8dde3; padding: .3rem .5rem; text-align: left; font-size: .9rem; }
+  th { background: #f2f4f7; }
+  .fight { border: 1px solid #d8dde3; border-radius: 6px; padding: .75rem 1rem; margin-bottom: 1rem; }
+  .win { font-weight: 600; color: #1a7f37; }
+  .dead { color: #b42318; font-weight: 600; }
+  button { padding: .4rem .8rem; }
+</style>
+</head>
+<body>
+<h1>Simulare lupte</h1>
+<p class="muted">
+  {{ totals.people }} soldați · {{ totals.fights }} lupte · {{ totals.events }} evenimente ·
+  {{ totals.damage }} daune aplicate
+  {% if simulated_now %}· {{ simulated_now }} lupte rejucate acum, în paralel{% endif %}
+</p>
+<form method="post">{% csrf_token %}<button name="reset" value="1">Resetează simularea</button></form>
+
+<h2>Lupte</h2>
+{% for item in fights %}
+<div class="fight">
+  <h3>Lupta #{{ item.fight.id }}: {{ item.fight.soldier_a.name }} vs {{ item.fight.soldier_b.name }}
+    <span class="muted">({{ item.fight.status }})</span></h3>
+  <p>
+    Daune provocate: {{ item.fight.soldier_a.name }} {{ item.dealt_a }}, {{ item.fight.soldier_b.name }} {{ item.dealt_b }}.
+    {% if item.winner %}<span class="win">Câștigător (după daune): {{ item.winner.name }}</span>{% else %}Egalitate.{% endif %}
+  </p>
+  <table>
+    <tr><th>#</th><th>Atacator</th><th>Apărător</th><th>Daune</th><th>Sănătate apărător după</th></tr>
+    {% for e in item.events %}
+    <tr>
+      <td>{{ e.order }}</td><td>{{ e.attacker.name }}</td><td>{{ e.defender.name }}</td><td>{{ e.damage }}</td>
+      <td>{% if e.defender_health_after == 0 %}<span class="dead">0</span>{% else %}{{ e.defender_health_after|default_if_none:"—" }}{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% empty %}
+<p>Nu există lupte încărcate. Rulează <code>python manage.py load_data</code>.</p>
+{% endfor %}
+
+<h2>Soldați (sănătate finală)</h2>
+<table>
+  <tr><th>ID</th><th>Nume</th><th>Vârstă</th><th>Sănătate</th></tr>
+  {% for s in soldiers %}
+  <tr><td>{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.age }}</td>
+      <td>{% if s.health == 0 %}<span class="dead">0</span>{% else %}{{ s.health }}{% endif %}</td></tr>
+  {% endfor %}
+</table>
+</body>
+</html>
