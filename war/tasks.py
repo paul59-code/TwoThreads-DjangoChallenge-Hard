@@ -76,4 +76,4 @@ def draft_batch(self, batch, items):
 
 def start_draft(first_batch=0):
     """Pornește lanțul de descărcare de la primul lot."""
-    download_batch.delay(first_batch)
+    return download_batch.delay(first_batch)

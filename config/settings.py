@@ -64,3 +64,11 @@ DRAFT_FETCH_TIMEOUT = int(os.environ.get("DRAFT_FETCH_TIMEOUT", "60"))  # secund
 # Adresa unui lot; {batch} e numărul lotului (0, 1, 2 ... cum îl dă `next_batch`).
 # TODO: pune adresa reală (cea de unde ai primit lotul cu "next_batch").
 DRAFT_BATCH_URL = os.environ.get("DRAFT_BATCH_URL", API_BASE_URL + "/draft?batch={batch}")
+
+# Erorile taskurilor (inclusiv în modul eager) se afișează în consolă.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "root": {"handlers": ["console"], "level": "WARNING"},
+}
