@@ -55,12 +55,12 @@ import os  # noqa: E402
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "memory://")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "cache+memory://")
 CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_EAGER") == "1"
-CELERY_TASK_EAGER_PROPAGATES = True
+CELERY_TASK_EAGER_PROPAGATES = False  # în modul eager, un retry reușit nu trebuie să arunce Retry
 CELERY_TASK_ACKS_LATE = True          # un task pierdut la o cădere a workerului se reia
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 
 # --- Drafting în loturi -------------------------------------------------------------------
-DRAFT_FETCH_TIMEOUT = 15               # secunde; peste ele cererea e considerată timeout și se reia
+DRAFT_FETCH_TIMEOUT = int(os.environ.get("DRAFT_FETCH_TIMEOUT", "60"))  # secunde; serverul e lent, peste ele cererea se reia
 # Adresa unui lot; {batch} e numărul lotului (0, 1, 2 ... cum îl dă `next_batch`).
 # TODO: pune adresa reală (cea de unde ai primit lotul cu "next_batch").
-DRAFT_BATCH_URL = API_BASE_URL + "/draft?batch={batch}"
+DRAFT_BATCH_URL = os.environ.get("DRAFT_BATCH_URL", API_BASE_URL + "/draft?batch={batch}")

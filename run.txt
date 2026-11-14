@@ -1,4 +1,5 @@
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py load_data --people-file people.json --fights-file fight-info.json
+-- CU ASTEA PORNESTE --
+$env:CELERY_EAGER = "1"
+$env:DRAFT_BATCH_URL = "https://coderun2026-csbwf4haa4d0gubu.westus3-01.azurewebsites.net/draft/{batch}"
+python manage.py start_draft
 python manage.py runserver
