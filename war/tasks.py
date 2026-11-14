@@ -48,10 +48,13 @@ def download_batch(self, batch):
     items, next_batch = _fetch_batch(batch)
     with transaction.atomic():
         for item in items:
+            defaults = {"name": item["name"], "age": item["age"]}
+            if item.get("key"):
+                defaults["key"] = item["key"]
             Person.objects.update_or_create(
                 id=item["id"],
-                defaults={"name": item["name"], "age": item["age"]},
-                create_defaults={"name": item["name"], "age": item["age"], "health": item.get("health", 100)},
+                defaults=defaults,
+                create_defaults={**defaults, "health": item.get("health", 100)},
             )
     # Lotul e descărcat: drafting-ul lui pornește imediat, ca task separat...
     draft_batch.delay(batch, [{"id": i["id"], "rank": i.get("rank")} for i in items])

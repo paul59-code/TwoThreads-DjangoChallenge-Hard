@@ -26,6 +26,10 @@
 </p>
 <form method="post">{% csrf_token %}<button name="reset" value="1">Resetează simularea</button></form>
 
+{% for k in keyed %}
+<p class="fight"><b>Următorul pas:</b> {{ k.name }} are cheia <code>{{ k.key }}</code> — deschide <code>/{{ k.key }}</code> pe server.</p>
+{% endfor %}
+
 <h2>Lupte</h2>
 {% for item in fights %}
 <div class="fight">
@@ -51,9 +55,9 @@
 
 <h2>Soldați (sănătate finală)</h2>
 <table>
-  <tr><th>ID</th><th>Nume</th><th>Vârstă</th><th>Sănătate</th></tr>
+  <tr><th>ID</th><th>Nume</th><th>Vârstă</th><th>Grad</th><th>Sănătate</th></tr>
   {% for s in soldiers %}
-  <tr><td>{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.age }}</td>
+  <tr><td>{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.age }}</td><td>{{ s.rank|default_if_none:"—" }}</td>
       <td>{% if s.health == 0 %}<span class="dead">0</span>{% else %}{{ s.health }}{% endif %}</td></tr>
   {% endfor %}
 </table>

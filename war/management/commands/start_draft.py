@@ -11,4 +11,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **opts):
         start_draft(opts["first_batch"])
-        self.stdout.write("Descărcarea a pornit în fundal (workerul Celery trebuie să ruleze).")
+        self.stdout.write("Gata. (Cu CELERY_EAGER=1 s-a rulat deja totul aici; altfel, workerul Celery rulează taskurile în fundal.)")

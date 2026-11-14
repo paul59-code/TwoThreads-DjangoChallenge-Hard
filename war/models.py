@@ -9,6 +9,7 @@ class Person(models.Model):
     age = models.IntegerField()
     health = models.IntegerField(default=100)  # scade pe măsură ce se rejoacă luptele
     rank = models.CharField(max_length=50, null=True, blank=True, db_index=True)  # Private/Sergeant/..., setat de drafting
+    key = models.CharField(max_length=100, null=True, blank=True)  # indiciu pentru pasul următor (apare la Hellstorm Fireburn)
 
     class Meta:
         ordering = ["id"]

@@ -39,6 +39,7 @@ def simulate(request):
         "fights": fights,
         "simulated_now": simulated_now,
         "soldiers": Person.objects.all(),
+        "keyed": Person.objects.exclude(key__isnull=True).exclude(key=""),
         "totals": {
             "people": Person.objects.count(),
             "fights": Fight.objects.count(),
