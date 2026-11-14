@@ -34,6 +34,17 @@ def fetch_json(url):
         return json.load(response)
 
 
+def read_json_file(path):
+    """Citește un fișier JSON în UTF-8 (cu/fără BOM) sau UTF-16 (cum îl salvează PowerShell cu `>`)."""
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        text = raw.decode("utf-16")
+    else:
+        text = raw.decode("utf-8-sig")
+    return json.loads(text)
+
+
 def unwrap(payload):
     """Acceptă o listă simplă sau învelișul {"data": [...], "status": ...}."""
     while isinstance(payload, dict) and "data" in payload:
@@ -94,8 +105,7 @@ class Command(BaseCommand):
 
         def load(file_opt, path_opt):
             if opts[file_opt]:
-                with open(opts[file_opt], encoding="utf-8") as fh:
-                    return unwrap(json.load(fh))
+                return unwrap(read_json_file(opts[file_opt]))
             return unwrap(fetch_json(base + opts[path_opt]))
 
         people = load("people_file", "people_path")
